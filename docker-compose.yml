@@ -5,9 +5,9 @@ services:
     container_name: fluxos-db
     restart: unless-stopped
     environment:
-      POSTGRES_USER=os_medical
-      POSTGRES_PASSWORD=jh3tMYngZ5fEiQB3nCayGkHniiMIUkV08D4JN56sP6fEBHG3jbzCNWFheCGYa4Hq
-      POSTGRES_DB=postgres
+      POSTGRES_USER: os_medical
+      POSTGRES_PASSWORD: jh3tMYngZ5fEiQB3nCayGkHniiMIUkV08D4JN56sP6fEBHG3jbzCNWFheCGYa4Hq
+      POSTGRES_DB: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
