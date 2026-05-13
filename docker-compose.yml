@@ -1,0 +1,52 @@
+services:
+  # Banco de dados PostgreSQL
+  db:
+    image: postgres:16-alpine
+    container_name: fluxos-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER=os_medical
+      POSTGRES_PASSWORD=jh3tMYngZ5fEiQB3nCayGkHniiMIUkV08D4JN56sP6fEBHG3jbzCNWFheCGYa4Hq
+      POSTGRES_DB=postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-fluxos}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Aplicação Next.js
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fluxos-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://os_medical:jh3tMYngZ5fEiQB3nCayGkHniiMIUkV08D4JN56sP6fEBHG3jbzCNWFheCGYa4Hq@95.217.164.173:5432/postgres
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # Serviço para rodar migrações do Prisma
+  migrate:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fluxos-migrate
+    environment:
+      DATABASE_URL: postgresql://os_medical:jh3tMYngZ5fEiQB3nCayGkHniiMIUkV08D4JN56sP6fEBHG3jbzCNWFheCGYa4Hq@95.217.164.173:5432/postgres
+    depends_on:
+      db:
+        condition: service_healthy
+    command: npx prisma migrate deploy
+    profiles:
+      - migrate
+
+volumes:
+  postgres_data:

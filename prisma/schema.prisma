@@ -1,0 +1,39 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Developer {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Automation {
+  id          String           @id @default(cuid())
+  name        String
+  description String?
+  status      AutomationStatus @default(ACTIVE)
+  documentation String?        @db.Text
+  link        String?
+  tags        String[]         @default([])
+  flowchart   Json?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+}
+
+enum AutomationStatus {
+  ACTIVE
+  PAUSED
+  DISABLED
+  DELETED
+}
