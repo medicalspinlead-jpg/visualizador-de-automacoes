@@ -12,7 +12,7 @@ FROM base AS deps
 COPY package.json pnpm-lock.yaml* ./
 COPY prisma ./prisma/
 
-RUN pnpm install --config.strict-peer-dependencies=false
+RUN npm install --legacy-peer-deps --frozen-lockfile
 
 # ================= BUILDER =================
 FROM base AS builder
@@ -25,8 +25,8 @@ ENV DATABASE_URL="postgresql://user:pass@localhost:5432/db"
 
 ENV NEXT_TELEMETRY_DISABLED=1
 
-RUN pnpm prisma generate
-RUN pnpm build
+RUN npm prisma generate
+RUN npm build
 
 # ================= RUNNER =================
 FROM base AS runner
