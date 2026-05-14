@@ -41,7 +41,7 @@ export function AutomationDetail({
   return (
     <>
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="w-[95vw] max-w-5xl h-[90vh] overflow-hidden flex flex-col p-0">
+      <DialogContent className="!w-[calc(100vw-2rem)] !max-w-none h-[90vh] overflow-hidden flex flex-col p-0">
         <DialogHeader className="px-4 sm:px-6 pt-4 sm:pt-6 pb-2">
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-4">
             <DialogTitle className="text-lg sm:text-xl font-bold pr-0 sm:pr-8">
