@@ -26,7 +26,7 @@ ENV DATABASE_URL="postgresql://user:pass@localhost:5432/db"
 ENV NEXT_TELEMETRY_DISABLED=1
 
 RUN npx prisma generate
-RUN npm build
+RUN npm run build
 
 # ================= RUNNER =================
 FROM base AS runner
