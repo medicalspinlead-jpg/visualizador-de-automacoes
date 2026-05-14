@@ -17,7 +17,7 @@ FROM base AS deps
 COPY package.json pnpm-lock.yaml* ./
 COPY prisma ./prisma/
 
-RUN pnpm install --frozen-lockfile
+RUN pnpm install --legacy-peer-deps
 
 # ========================================
 # Etapa de build
