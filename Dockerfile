@@ -17,7 +17,7 @@ FROM base AS deps
 COPY package.json pnpm-lock.yaml* ./
 COPY prisma ./prisma/
 
-RUN pnpm install --legacy-peer-deps
+RUN pnpm install --config.strict-peer-dependencies=false
 
 # ========================================
 # Etapa de build
