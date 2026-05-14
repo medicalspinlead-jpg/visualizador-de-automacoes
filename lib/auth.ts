@@ -28,9 +28,13 @@ export async function createSession(developerId: string) {
   const cookieStore = await cookies()
   const sessionToken = Buffer.from(developerId).toString("base64")
   
+  // Use HTTPS_ENABLED env var to determine secure cookie
+  // Set to "true" if your production uses HTTPS, "false" if using HTTP
+  const isSecure = process.env.HTTPS_ENABLED === "true"
+  
   cookieStore.set(SESSION_COOKIE_NAME, sessionToken, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: isSecure,
     sameSite: "lax",
     maxAge: 60 * 60 * 24 * 7, // 7 days
     path: "/"
